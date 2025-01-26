@@ -1,0 +1,27 @@
+@startuml "Sistema de Gerenciamento de Oficinas Mecânicas"
+left to right direction
+
+:Cliente: as Cliente
+
+rectangle "Sistema de Gerenciamento de Oficinas Mecânicas" {
+  (Visualizar Serviços) as visualizar_servicos
+  (Solicitar Orçamenro) as solicitar_orcamento
+  (Solicitar Agendanto) as solicitar_agendamento
+  (Acompanhar Status) as acompanhar_status
+  (Avaliar Serviço) as avaliar_servico
+  (Cancelar Agendamento) as cancelar_agendamento
+  (Receber Notificação) as receber_notificacao
+}
+
+Cliente --> visualizar_servicos
+Cliente --> solicitar_orcamento
+Cliente --> solicitar_agendamento
+Cliente --> acompanhar_status
+Cliente --> avaliar_servico
+Cliente --> cancelar_agendamento
+
+solicitar_agendamento ..right..> receber_notificacao : <<include>>
+
+
+
+@enduml

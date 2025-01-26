@@ -1,0 +1,37 @@
+@startuml "Sistema de Gerenciamento de Oficinas Mecânicas"
+left to right direction
+
+:Atendente: as Atendente
+
+rectangle "Sistema de Gerenciamento de Oficinas Mecânicas" {
+  (Listar Serviços) as listar_servicos
+  (Agendar Serviço) as agendar_servico
+  (Gerar Orçamento) as gerar_orcamento
+  (Visualizar Estoque) as visualizar_estoque
+  (Registar Pagamentos) as registrar_pagamentos
+  (Listar Pagamentos) as listar_pagamentos
+  (Notificar Cliente) as notificar_cliente
+  
+  rectangle "Forma de Pagamento"{
+    (Pix) as pix
+    (Cartão de Crédito) as cartao
+    (Dinheiro) as dinheiro
+
+    pix -up-|> registrar_pagamentos
+    cartao -up-|> registrar_pagamentos
+    dinheiro -up-|> registrar_pagamentos
+
+  }
+}
+
+Atendente --> listar_servicos
+Atendente --> agendar_servico
+Atendente --> gerar_orcamento
+Atendente --> visualizar_estoque
+Atendente --> registrar_pagamentos  
+Atendente --> listar_pagamentos
+
+
+agendar_servico ..right..> notificar_cliente : <<include>>
+
+@enduml
