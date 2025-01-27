@@ -1,0 +1,52 @@
+@startuml "Sistema de Gerenciamento de Oficinas Mecânicas"
+left to right direction
+
+:Gerente: as Gerente
+
+rectangle "Sistema de Gerenciamento de Oficinas Mecânicas" {
+  
+  package "Gerenciamento de Estoque" {
+    (Gerenciar Estoque) as gerenciar_estoque
+    (Adicionar Produto) as adicionar_produto
+    (Remover Produto) as remover_produto
+    (Editar Produto) as editar_produto
+  }
+  
+  package "Gerenciamento de Funcionários" {
+    (Gerenciar Funcionários) as gerenciar_funcionarios
+    (Cadastrar Funcionários) as cadastrar_funcionarios
+    (Remover Funcionários) as remover_funcionarios
+    (Listar Funcionários) as listar_funcionarios
+    (Editar Funcionários) as editar_funcionarios
+  }
+
+  package "Serviços" {
+    (Cadastrar Serviços) as cadastrar_servicos
+    (Remover Serviços) as remover_servicos
+    (Listar Serviços) as listar_servicos
+    (Editar Serviços) as editar_servicos
+  }
+
+  (Visualizar Relatórios) as visualizar_relatorios
+  (Acompanhar Desempenho da Oficina) as acompanhar_desempenho_oficina
+}
+
+Gerente --> gerenciar_estoque
+Gerente --> gerenciar_funcionarios
+Gerente --> visualizar_relatorios
+Gerente --> acompanhar_desempenho_oficina
+Gerente --> cadastrar_servicos
+Gerente --> remover_servicos 
+Gerente --> listar_servicos
+Gerente --> editar_servicos
+
+gerenciar_estoque --> adicionar_produto : <<extend>>
+gerenciar_estoque --> remover_produto : <<extend>>
+gerenciar_estoque --> editar_produto : <<extend>>
+
+gerenciar_funcionarios --> cadastrar_funcionarios : <<extend>>
+gerenciar_funcionarios --> remover_funcionarios : <<extend>>
+gerenciar_funcionarios --> listar_funcionarios : <<extend>>
+gerenciar_funcionarios --> editar_funcionarios : <<extend>>
+
+@enduml
