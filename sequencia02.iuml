@@ -1,0 +1,47 @@
+@startuml "Solicitação de Orçamento"
+hide footbox
+
+actor Cliente as cliente
+entity TelaListaServicos
+control ControladorServicos
+database BancoDeDados
+
+cliente -> TelaListaServicos: selecionar_servicos(servico: Servico): void
+activate TelaListaServicos
+
+TelaListaServicos -> ControladorServicos: listar_servicos(servico: Servico): List<Servico>
+activate ControladorServicos
+
+ControladorServicos -> BancoDeDados: buscar_servicos(servico: Servico): List<Servico>
+activate BancoDeDados
+
+BancoDeDados --> ControladorServicos: retorna(): List<Servico>
+deactivate BancoDeDados
+
+ControladorServicos --> TelaListaServicos: retorna(): List<Servico>
+deactivate ControladorServicos
+deactivate TelaListaServicos
+
+cliente -> TelaListaServicos: solicitar_orcamento(List<Servico>): void
+activate TelaListaServicos
+
+TelaListaServicos -> ControladorServicos: gerar_orcamento(List<Servico>): boolean
+activate ControladorServicos
+
+ControladorServicos -> BancoDeDados: salvar_orcamento(orcamento: Orcamento): void
+activate BancoDeDados
+
+BancoDeDados --> ControladorServicos: orcamento_salvo(): boolean
+deactivate BancoDeDados
+
+ControladorServicos -> orcamento**: <<create>>
+activate orcamento
+
+ControladorServicos --> TelaListaServicos: notificar_cliente(cliente: Cliente, mensagem: string): void
+deactivate ControladorServicos
+
+orcamento --> TelaListaServicos: retornar_detalhes_orcamento(): Orcamento
+deactivate orcamento
+deactivate TelaListaServicos
+
+@enduml

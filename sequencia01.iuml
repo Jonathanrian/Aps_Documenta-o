@@ -1,0 +1,28 @@
+@startuml "Visualizar Serviços"
+hide footbox
+
+actor Cliente
+entity TelaServicos
+control ControladorServicos
+database BancoDeDados
+
+Cliente -> TelaServicos: visualizar_servicos(): List<Servico>
+activate TelaServicos
+
+TelaServicos -> ControladorServicos: listar_servicos(): List<Servico>
+activate ControladorServicos
+
+ControladorServicos -> BancoDeDados: buscar_servicos(): List<Servico>
+activate BancoDeDados
+
+BancoDeDados --> ControladorServicos: retorna(): List<Servico>
+deactivate BancoDeDados
+
+ControladorServicos --> TelaServicos: exibir_servicos(): List<Servico>
+deactivate ControladorServicos
+
+deactivate TelaServicos
+
+@enduml
+
+

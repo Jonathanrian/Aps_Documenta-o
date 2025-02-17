@@ -1,0 +1,174 @@
+@startuml "Diagrama de Classe"
+left to right direction
+
+class Oficina {
+  -id: String
+  -nome: String
+  -endereco: String
+  -telefone: String
+  +agendar_servico(cliente: Cliente, servico: Servico, veiculo: Veiculo): void
+  +gerar_orcamento(servico: Servico): Orcamento
+  +controlar_estoque(peca: Peca, quantidade: int): void
+}
+
+class Pessoa {
+  -id: String
+  -nome: String
+  -cpf: String
+  -email: String
+  -telefone: String
+  -endereco: String
+  -cep: String
+  +getInfoPessoa(): String
+}
+
+class Cliente {
+  +visualizar_servicos(): List<Servico>
+  +solicitar_orcamento(servico: Servico): void
+  +solicitar_agendamento(servico: Servico, veiculo: Veiculo, data: Date): boolean 
+  +receber_notificacao(mensagem: String): void
+  +acompanhar_status(servico: Servico): void
+  +avaliar_servico(servico: Servico, nota: int): void
+  +cancelar_agendamento(servico: Servico): boolean
+}
+
+class Atendente {
+  -carga_horaria: String
+  -salario: double
+  +verificar_estoque(peca: Peca, quantidade: int): boolean
+  +gerarOrcamento(servico: Servico): Orcamento
+  +registrar_pagamento(cliente: Cliente, valor: double, forma_pagamento: String): void
+  +listar_servicos(): List<Servico>
+  +agendar_servico(cliente: Cliente, servico: Servico, veiculo: Veiculo, data: Date): void
+  +listar_pagamentos(cliente: Cliente): List<Pagamento>
+  +notificar_cliente(cliente: Cliente, mensagem: String): void
+}
+
+class Gerente {
+  -carga_horaria: String
+  -salario: double
+  +visualizar_relatorios(): List<Relatorio>
+  +acompanhar_desempenho(): String
+  +gerenciar_estoque(peca: Peca, quantidade: int): void
+  +gerenciar_funcionarios(funcionario: Funcionario): List<Funcionario>
+  +cadastar_servico(servico: Servico): void
+  +remover_servico(servico: Servico): void
+  +listar_servico(): List<Servico>
+  +listar_funcionarios(): List<Funcionario>
+}
+
+class Funcionario {
+  -id: String
+  -nome: String
+  -cpf: String
+  -cargo: String
+  +trabalhar(): void
+}
+
+Pessoa <|-right- Cliente
+Pessoa <|-up- Atendente
+Pessoa <|-left- Gerente
+
+Cliente "n" -- "1" Atendente: é atendido por >
+
+class Veiculo {
+  -id: String
+  -marca: String
+  -modelo: String
+  -ano: int
+  -placa: String
+  -cor: String
+  -cliente: Cliente
+  +get_Info_Veiculo(): String
+  +atualizar_info_veiculo(): void
+}
+
+class Servico {
+  -id: String
+  -descricao: String
+  -valor: double
+  -tempoEstimado: double
+  -status: String
+  +calcular_valor(): double
+}
+
+class Orcamento {
+  -id: String
+  -servico: Servico
+  -valor: double
+  -data: Date
+  +apresentar_orcamento(): String
+  +atualizar_valor(): void
+}
+
+class Peca {
+  -id: String
+  -nome: String
+  -quantidade_estoque: int
+  -valor_unitario: double
+  +atualizar_estoque(quantidade: int): void
+}
+
+class ServicoPeca {
+  -servico: Servico
+  -peca: Peca
+  -quantidade: int
+  +atualizar_quantidade(qtd: int): void
+}
+
+class Estoque {
+  -pecas: List<Peca>
+  +adicionar_peca(peca: Peca): void
+  +remover_peca(peca: Peca): void
+  +verificar_disponibilidade(peca: Peca): boolean
+  +listar_pecas(): List<Peca>
+}
+
+class Pagamento {
+  -id: String
+  -cliente: Cliente
+  -valor: double
+  -forma_pagamento: String
+  -data: Date
+  +registrar_pagamento(): void
+}
+
+class Relatorio {
+  -id: String
+  -data: Date
+  -quantidade_servicos: int
+  -valor_total: double
+  +gerar_relatorio(): String
+}
+
+class Agendamento {
+  -id: String
+  -data: Date
+  -horario: String
+  -status: String
+  -cliente: Cliente
+  -servico: Servico
+  -veiculo: Veiculo
+  +confirmarAgendamento(): void
+  +cancelarAgendamento(): void
+  +atualizarStatus(novoStatus: String): void
+}
+
+Oficina "1" -- "1" Gerente: gerencia >
+Cliente "1" -- "n" Pagamento: realiza >
+Cliente "1" -- "n" Veiculo: possui >
+Servico "n" -- "n" ServicoPeca: utiliza >
+ServicoPeca "n" -- "1" Peca: contém >
+Servico "1" -- "1" Orcamento: gera >
+Servico "1" -- "n" Agendamento: possui >
+Agendamento "1" -- "1" Cliente: pertence a >
+Agendamento "1" -- "1" Veiculo: pertence a >
+Atendente "1" -- "n" Servico: agenda >
+Atendente "1" -- "n" Pagamento: registra >
+Gerente "1" -- "n" Relatorio: gera >
+Gerente "1" -- "n" Estoque: gerencia >
+Estoque "1" -- "n" Peca: contém >
+Gerente "1" -- "n" Funcionario: gerencia >
+Funcionario "1" -- "1" Oficina: trabalha em >
+
+@enduml
